@@ -9,13 +9,17 @@ Three additional containers are included that handle Composer, NPM, and Artisan 
 Run these following steps
 
 - Copy the .env.example to create a .env file
-- Run in the terminal `docker-compose run --rm artisan migrate`
-- Run in the terminal `docker-compose run --rm artisan passport:install`
+- Run in the terminal `docker-compose up`
+- Run in the terminal `docker-compose run composer install`
+- Run in the terminal `docker-compose run artisan migrate`
+- Run in the terminal `docker-compose run artisan passport:install`
 - API available from http://localhost:8080;
 
 ## FRONTEND
 
 Run the following command from the root of the project to build the frontend.
 
-- cd frontend; ng serve;
+- cd frontend
+- npm install
+- ng serve
 - Application available from http://localhost:4200;
