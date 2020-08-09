@@ -1,0 +1,22 @@
+<div *ngIf="currentUser" class="invalid-feedback">
+    <div>You are currently logged in as an admin</div>
+</div>
+
+<h3>Users:</h3>
+
+<div *ngIf="currentUser.admin" class="text-danger">
+    <div>You are currently logged in as an admin</div>
+</div>
+
+<span *ngIf="loading" class="spinner-border spinner-border-sm mr-1 mt-4"></span>
+
+<div *ngFor="let user of users" class="mt-4">
+    <p>ID: {{user.id}}</p>
+    <p>Name: {{user.name}}</p>
+    <p *ngIf="currentUser.admin">Email: {{user.email}}</p>
+
+    <a *ngIf="user.id == currentUser.data.id; else viewProfile" (click)="viewUser(user.id)" class="text mr-3">My profile</a>
+    <ng-template #viewProfile><a (click)="viewUser(user.id)" class="text mr-3">View</a></ng-template>
+
+    <a (click)="deleteUser(user.id)" class="text-danger" *ngIf="currentUser.admin && user.id !== currentUser.id">Delete</a>
+</div>

@@ -1,0 +1,85 @@
+<div *ngIf="loading; else profileDetails">
+    <span class="spinner-border spinner-border-sm mr-1 mt-4"></span>
+    <span>{{loadingMessage}}</span>
+</div>
+
+<ng-template #profileDetails>
+    <div *ngIf="!updateUser && !updatePassword else updateDetails">
+        <p>ID: {{user.id}}</p>
+        <p>Name: {{user.name}}</p>
+        <p *ngIf="currentUser.admin">Email: {{user.email}}</p>
+
+        <div *ngIf="currentUser.admin || user.id === currentUser.data.id" class="text-danger">
+            <button (click)="showUpdateUser(true)" class="btn btn-primary mr-3">
+                <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                Update
+            </button>
+            <a (click)="showUpdatePassword(true)"  class="btn btn-link">Change Password</a>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #updateDetails>
+    <div *ngIf="updateUser">
+        <form [formGroup]="detailForm" (ngSubmit)="onSubmitDetails()">
+            <div class="form-group mt-4">
+                <label for="name">Name</label>
+                <input type="text" formControlName="name" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.name.errors }" />
+                <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+                    <div *ngIf="f.name.errors.required">Name is required</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="text" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+                <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                    <div *ngIf="f.email.errors.required">Email is required</div>
+                </div>
+            </div>
+            <div class="form-group mt-5">
+                <button [disabled]="loading" class="btn btn-primary mr-3">
+                    <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                    Update Details
+                </button>
+                <a (click)="showUpdateUser(false)"  class="btn btn-link">Cancel</a>
+            </div>
+        </form>
+    </div>
+
+    <div *ngIf="updatePassword">
+        <form [formGroup]="passwordForm" (ngSubmit)="onSubmitPassword()">
+            <div class="form-group mt-4">
+                <label for="name">Old Password</label>
+                <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+                <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                    <div *ngIf="f.password.errors.required">Old password is required</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="password">New Password</label>
+                <input type="password" formControlName="newPassword" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.newPassword.errors }" />
+                <div *ngIf="submitted && f.newPassword.errors" class="invalid-feedback">
+                    <div *ngIf="f.newPassword.errors.required">New Password is required</div>
+                    <div *ngIf="f.newPassword.errors.minlength">Password must be at least 6 characters</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="c_password">Confirm Password</label>
+                <input type="password" formControlName="c_password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.c_password.errors }" />
+                <div *ngIf="submitted && f.c_password.errors" class="invalid-feedback">
+                    <div *ngIf="f.c_password.errors.required">Confirm Password is required</div>
+                    <div *ngIf="f.c_password.errors.minlength">Password must be at least 6 characters</div>
+                </div>
+            </div>
+            <div class="form-group mt-5">
+                <button [disabled]="loading" class="btn btn-primary mr-3">
+                    <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                    Update Password
+                </button>
+                <a (click)="showUpdatePassword(false)"  class="btn btn-link">Cancel</a>
+            </div>
+        </form>
+    </div>
+
+</ng-template>
+
